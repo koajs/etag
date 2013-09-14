@@ -6,6 +6,10 @@
 var crc = require('buffer-crc32').signed;
 var Stream = require('stream');
 
+/**
+ * Expose `etag`.
+ */
+
 module.exports = etag;
 
 /**
