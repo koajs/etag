@@ -83,8 +83,8 @@ describe('etag()', function(){
     })
   })
 
-  describe('when body is a stream', function(){
-    it('should not add ETag', function(done){
+  describe('when body is a stream with a .path', function(){
+    it('should add an ETag', function(done){
       var app = koa();
 
       app.use(etag());
@@ -100,7 +100,7 @@ describe('etag()', function(){
       .get('/')
       .end(function(err, res){
         if (err) return done(err);
-        res.header.should.not.have.property('ETag');
+        res.should.have.header('ETag');
         done();
       });
     })

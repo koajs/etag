@@ -5,6 +5,7 @@
 
 var crc = require('buffer-crc32').signed;
 var Stream = require('stream');
+var fs = require('fs');
 
 /**
  * Expose `etag`.
@@ -37,8 +38,11 @@ function etag() {
       if (2 != status) return;
 
       // stream
-      // TODO: fall back on inode / mtime etc for streams
-      if (body instanceof Stream) return;
+      if (body instanceof Stream) {
+        if (!body.path) return;
+        var s = yield stat(body.path);
+        etag = crc(s.size + '.' + s.mtime);
+      }
 
       // string
       if ('string' == type) etag = crc(body);
@@ -52,5 +56,15 @@ function etag() {
       // add etag
       if (etag) this.set('ETag', '"' + etag + '"');
     }
+  }
+}
+
+/**
+ * Stat thunk.
+ */
+
+function stat(file) {
+  return function(done){
+    fs.stat(file, done);
   }
 }
