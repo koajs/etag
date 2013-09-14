@@ -6,6 +6,8 @@
   "keywords": [
     "koa",
     "middleware",
+    "cache",
+    "caching",
     "etag",
     "file",
     "static",
