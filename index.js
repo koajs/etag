@@ -29,8 +29,12 @@ function etag() {
       if (!body) return;
 
       // type
+      var status = this.status / 100 | 0;
       var type = typeof body;
       var etag;
+
+      // 2xx
+      if (2 != status) return;
 
       // stream
       // TODO: fall back on inode / mtime etc for streams
