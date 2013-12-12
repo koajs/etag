@@ -1,18 +1,13 @@
 
+var serve = require('koa-static');
 var etag = require('./');
 var koa = require('koa');
 var app = koa();
 
-app.use(etag());
+// $ GET /package.json
 
-app.use(function(next){
-  return function *(){
-    yield next;
-    //this.body = 'Hello World';
-    //this.body = new Buffer('Hello World');
-    this.body = { foo: 'bar' };
-  }
-})
+app.use(etag());
+app.use(serve('.'));
 
 app.listen(3000);
 
