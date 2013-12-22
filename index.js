@@ -21,41 +21,39 @@ module.exports = etag;
  */
 
 function etag() {
-  return function(next){
-    return function *(){
-      yield next;
+  return function *(next){
+    yield next;
 
-      // no body
-      var body = this.body;
-      if (!body) return;
+    // no body
+    var body = this.body;
+    if (!body) return;
 
-      // type
-      var status = this.status / 100 | 0;
-      var type = typeof body;
-      var etag;
+    // type
+    var status = this.status / 100 | 0;
+    var type = typeof body;
+    var etag;
 
-      // 2xx
-      if (2 != status) return;
+    // 2xx
+    if (2 != status) return;
 
-      // stream
-      if (body instanceof Stream) {
-        if (!body.path) return;
-        var s = yield stat(body.path);
-        etag = crc(s.size + '.' + s.mtime);
-      }
-
-      // string
-      if ('string' == type) etag = crc(body);
-
-      // buffer
-      if (Buffer.isBuffer(body)) etag = crc(body);
-
-      // json
-      etag = crc(JSON.stringify(body));
-
-      // add etag
-      if (etag) this.set('ETag', '"' + etag + '"');
+    // stream
+    if (body instanceof Stream) {
+      if (!body.path) return;
+      var s = yield stat(body.path);
+      etag = crc(s.size + '.' + s.mtime);
     }
+
+    // string
+    if ('string' == type) etag = crc(body);
+
+    // buffer
+    if (Buffer.isBuffer(body)) etag = crc(body);
+
+    // json
+    etag = crc(JSON.stringify(body));
+
+    // add etag
+    if (etag) this.set('ETag', '"' + etag + '"');
   }
 }
 
