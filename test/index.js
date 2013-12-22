@@ -11,10 +11,8 @@ describe('etag()', function(){
 
       app.use(etag());
 
-      app.use(function(next){
-        return function *(){
-          yield next;
-        }
+      app.use(function *(next){
+        yield next;
       });
 
       request(app.listen())
@@ -29,11 +27,9 @@ describe('etag()', function(){
 
       app.use(etag());
 
-      app.use(function(next){
-        return function *(){
-          yield next;
-          this.body = 'Hello World';
-        }
+      app.use(function *(next){
+        yield next;
+        this.body = 'Hello World';
       });
 
       request(app.listen())
@@ -49,11 +45,9 @@ describe('etag()', function(){
 
       app.use(etag());
 
-      app.use(function(next){
-        return function *(){
-          yield next;
-          this.body = new Buffer('Hello World');
-        }
+      app.use(function *(next){
+        yield next;
+        this.body = new Buffer('Hello World');
       });
 
       request(app.listen())
@@ -69,11 +63,9 @@ describe('etag()', function(){
 
       app.use(etag());
 
-      app.use(function(next){
-        return function *(){
-          yield next;
-          this.body = JSON.stringify({ foo: 'bar' });
-        }
+      app.use(function *(next){
+        yield next;
+        this.body = JSON.stringify({ foo: 'bar' });
       });
 
       request(app.listen())
@@ -89,11 +81,9 @@ describe('etag()', function(){
 
       app.use(etag());
 
-      app.use(function(next){
-        return function *(){
-          yield next;
-          this.body = fs.createReadStream('package.json');
-        }
+      app.use(function *(next){
+        yield next;
+        this.body = fs.createReadStream('package.json');
       });
 
       request(app.listen())
