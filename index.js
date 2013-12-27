@@ -36,18 +36,14 @@ function etag() {
     // 2xx
     if (2 != status) return;
 
-    // stream
+    // hash
     if (body instanceof Stream) {
       if (!body.path) return;
       var s = yield stat(body.path);
       etag = crc(s.size + '.' + s.mtime);
-    }
-
-    // string or buffer
-    if ('string' == type || Buffer.isBuffer(body)) {
+    } else if ('string' == type || Buffer.isBuffer(body)) {
       etag = crc(body);
-    } else if (!etag) {
-      // json
+    } else {
       etag = crc(JSON.stringify(body));
     }
 
