@@ -34,7 +34,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"581120842"')
+      .expect('ETag', '"1243066710"')
       .end(done);
     })
   })
@@ -52,7 +52,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"1236951804"')
+      .expect('ETag', '"1243066710"')
       .end(done);
     })
   })
@@ -65,12 +65,12 @@ describe('etag()', function(){
 
       app.use(function *(next){
         yield next;
-        this.body = JSON.stringify({ foo: 'bar' });
+        this.body = { foo: 'bar' };
       });
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"2114749371"')
+      .expect('ETag', '"-30673425"')
       .end(done);
     })
   })

@@ -43,14 +43,13 @@ function etag() {
       etag = crc(s.size + '.' + s.mtime);
     }
 
-    // string
-    if ('string' == type) etag = crc(body);
-
-    // buffer
-    if (Buffer.isBuffer(body)) etag = crc(body);
-
-    // json
-    etag = crc(JSON.stringify(body));
+    // string or buffer
+    if ('string' == type || Buffer.isBuffer(body)) {
+      etag = crc(body);
+    } else if (!etag) {
+      // json
+      etag = crc(JSON.stringify(body));
+    }
 
     // add etag
     if (etag) this.set('ETag', '"' + etag + '"');
