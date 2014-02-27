@@ -21,6 +21,26 @@ describe('etag()', function(){
     })
   })
 
+  describe('when ETag is exists', function(){
+    it('should not add ETag', function(done){
+      var app = koa();
+
+      app.use(etag());
+
+      app.use(function *(next){
+        this.body = {hi: 'etag'};
+        this.etag = 'etaghaha';
+        yield next;
+      });
+
+      request(app.listen())
+      .get('/')
+      .expect('etag', '"etaghaha"')
+      .expect({hi: 'etag'})
+      .expect(200, done);
+    })
+  })
+
   describe('when body is a string', function(){
     it('should add ETag', function(done){
       var app = koa();

@@ -26,7 +26,7 @@ function etag() {
 
     // no body
     var body = this.body;
-    if (!body) return;
+    if (!body || this.response.get('ETag')) return;
 
     // type
     var status = this.status / 100 | 0;
