@@ -21,7 +21,7 @@ module.exports = etag;
  */
 
 function etag() {
-  return function *(next){
+  return function *etag(next){
     yield next;
 
     // no body
