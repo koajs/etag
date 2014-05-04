@@ -1,4 +1,9 @@
 
+1.2.4 / 2014-05-04
+==================
+
+ * named generator function for improved debugging. Closes #7
+
 1.2.3 / 2014-02-27
 ==================
 
