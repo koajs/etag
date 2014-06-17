@@ -39,8 +39,12 @@ function etag() {
     // hash
     if (body instanceof Stream) {
       if (!body.path) return;
-      var s = yield stat(body.path);
-      etag = crc(s.size + '.' + s.mtime);
+      try {
+        var s = yield stat(body.path);
+        etag = crc(s.size + '.' + s.mtime);
+      } catch (e) {
+        console.log(e.stack || e);
+      }
     } else if ('string' == type || Buffer.isBuffer(body)) {
       etag = crc(body);
     } else {
