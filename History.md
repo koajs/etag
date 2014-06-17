@@ -1,4 +1,9 @@
 
+1.2.5 / 2014-06-17
+==================
+
+ * fix: make sure the file is there before we `stat` it
+
 1.2.4 / 2014-05-04
 ==================
 
