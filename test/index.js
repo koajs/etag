@@ -115,4 +115,26 @@ describe('etag()', function(){
       });
     })
   })
+
+  describe('when options.calculate is set', function(){
+    it('should add a custom ETag', function(done){
+      var app = koa();
+
+      app.use(etag({
+        calculate: function(){
+          return 'lol';
+        }
+      }));
+
+      app.use(function *(next) {
+        yield *next;
+        this.body = 'hello world';
+      });
+
+      request(app.listen())
+      .get('/')
+      .expect('ETag', '"lol"')
+      .expect(200, done);
+    })
+  })
 })

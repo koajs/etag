@@ -3,7 +3,6 @@
  * Module dependencies.
  */
 
-var crc = require('buffer-crc32').signed;
 var Stream = require('stream');
 var fs = require('fs');
 
@@ -20,9 +19,14 @@ module.exports = etag;
  * @api public
  */
 
-function etag() {
+function etag(options) {
+  options = options || {};
+
+  var calculate = options.calculate
+    || require('buffer-crc32').signed;
+
   return function *etag(next){
-    yield next;
+    yield* next;
 
     // no body
     var body = this.body;
@@ -30,22 +34,21 @@ function etag() {
 
     // type
     var status = this.status / 100 | 0;
-    var type = typeof body;
-    var etag;
 
     // 2xx
     if (2 != status) return;
 
     // hash
+    var etag;
     if (body instanceof Stream) {
       if (!body.path) return;
       var s = yield stat(body.path);
       if (!s) return;
-      etag = crc(s.size + '.' + s.mtime);
-    } else if ('string' == type || Buffer.isBuffer(body)) {
-      etag = crc(body);
+      etag = calculate(s.size + '.' + s.mtime);
+    } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
+      etag = calculate(body);
     } else {
-      etag = crc(JSON.stringify(body));
+      etag = calculate(JSON.stringify(body));
     }
 
     // add etag
