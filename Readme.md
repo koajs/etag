@@ -30,6 +30,29 @@ app.listen(3000);
 console.log('listening on port 3000');
 ```
 
+## Options
+
+### calculate
+
+By default, `etag` uses `crc32` to calculate bodies.
+If you want to use a custom function,
+set `options.calculate`.
+Custom etag calculation functions should accept both strings and buffers.
+
+For example, to use hex-encoded `sha256` sums:
+
+```js
+var crypto = require('crypto');
+
+app.use(etag({
+  calculate: function (body) {
+    return crypto.createHash('sha256')
+      .update(body)
+      .digest('hex');
+  }
+}));
+```
+
 ## License
 
   MIT

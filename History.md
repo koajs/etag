@@ -1,4 +1,9 @@
 
+1.3.0 / 2014-06-17
+==================
+
+ * add `options.calculate=` for custom etag calculations
+
 1.2.5 / 2014-06-17
 ==================
 
