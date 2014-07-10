@@ -52,7 +52,17 @@ function etag(options) {
     }
 
     // add etag
-    if (etag) this.set('ETag', '"' + etag + '"');
+    if (etag) {
+      etag = '"' + etag + '"';
+      this.set('ETag', etag);
+
+      // return 304 if etag matches
+      var match = this.get('If-None-Match');
+      if (etag === match) {
+        this.status = 304;
+        this.body = '';
+      }
+    }
   }
 }
 
