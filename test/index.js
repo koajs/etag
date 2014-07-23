@@ -116,12 +116,12 @@ describe('etag()', function(){
     })
   })
 
-  describe('when options.calculate is set', function(){
+  describe('when options.hash is set', function(){
     it('should add a custom ETag', function(done){
       var app = koa();
 
       app.use(etag({
-        calculate: function(){
+        hash: function(){
           return 'lol';
         }
       }));

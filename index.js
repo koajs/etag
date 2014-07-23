@@ -22,7 +22,8 @@ module.exports = etag;
 function etag(options) {
   options = options || {};
 
-  var calculate = options.calculate
+  var calculate = options.hash
+    || options.calculate
     || require('buffer-crc32').signed;
 
   return function *etag(next){

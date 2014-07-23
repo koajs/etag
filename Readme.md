@@ -35,11 +35,11 @@ console.log('listening on port 3000');
 
 ## Options
 
-### calculate
+### hash
 
 By default, `etag` uses `crc32` to calculate bodies.
 If you want to use a custom function,
-set `options.calculate`.
+set `options.hash`.
 Custom etag calculation functions should accept both strings and buffers.
 
 For example, to use hex-encoded `sha256` sums:
@@ -48,7 +48,7 @@ For example, to use hex-encoded `sha256` sums:
 var crypto = require('crypto');
 
 app.use(etag({
-  calculate: function (body) {
+  hash: function (body) {
     return crypto.createHash('sha256')
       .update(body)
       .digest('hex');
