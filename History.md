@@ -1,9 +1,17 @@
 
+2.0.0 / 2014-08-30
+==================
+
+ * use etag module
+ * use mz
+ * remove options
+ * etag signatures have changed
+
 1.3.1 / 2014-07-22
 ==================
 
  * change `options.calculate=` to `options.hash=`
- 
+
 1.3.0 / 2014-06-17
 ==================
 
