@@ -3,8 +3,9 @@
  * Module dependencies.
  */
 
+var calculate = require('etag');
 var Stream = require('stream');
-var fs = require('fs');
+var fs = require('mz/fs');
 
 /**
  * Expose `etag`.
@@ -19,13 +20,7 @@ module.exports = etag;
  * @api public
  */
 
-function etag(options) {
-  options = options || {};
-
-  var calculate = options.hash
-    || options.calculate
-    || require('buffer-crc32').signed;
-
+function etag() {
   return function *etag(next){
     yield* next;
 
@@ -43,9 +38,9 @@ function etag(options) {
     var etag;
     if (body instanceof Stream) {
       if (!body.path) return;
-      var s = yield stat(body.path);
+      var s = yield fs.stat(body.path).catch(noop);
       if (!s) return;
-      etag = calculate(s.size + '.' + s.mtime);
+      etag = calculate(s);
     } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
       etag = calculate(body);
     } else {
@@ -53,18 +48,8 @@ function etag(options) {
     }
 
     // add etag
-    if (etag) this.set('ETag', '"' + etag + '"');
+    if (etag) this.response.etag = etag;
   }
 }
 
-/**
- * Stat thunk.
- */
-
-function stat(file) {
-  return function(done){
-    fs.stat(file, function(err, s) {
-      done(null, s);
-    });
-  }
-}
+function noop() {}

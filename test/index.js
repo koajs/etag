@@ -54,7 +54,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"1243066710"')
+      .expect('ETag', '"sQqNsWTgdUEFt6mb5y4/5Q=="')
       .end(done);
     })
   })
@@ -72,7 +72,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"1243066710"')
+      .expect('ETag', '"sQqNsWTgdUEFt6mb5y4/5Q=="')
       .end(done);
     })
   })
@@ -90,7 +90,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"-30673425"')
+      .expect('ETag', '"m7WPJhkuS6APAeLnsTa72A=="')
       .end(done);
     })
   })
@@ -113,28 +113,6 @@ describe('etag()', function(){
         res.should.have.header('ETag');
         done();
       });
-    })
-  })
-
-  describe('when options.hash is set', function(){
-    it('should add a custom ETag', function(done){
-      var app = koa();
-
-      app.use(etag({
-        hash: function(){
-          return 'lol';
-        }
-      }));
-
-      app.use(function *(next) {
-        yield *next;
-        this.body = 'hello world';
-      });
-
-      request(app.listen())
-      .get('/')
-      .expect('ETag', '"lol"')
-      .expect(200, done);
     })
   })
 })
