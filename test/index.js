@@ -54,7 +54,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"sQqNsWTgdUEFt6mb5y4/5Q=="')
+      .expect('ETag', '"b-sQqNsWTgdUEFt6mb5y4/5Q"')
       .end(done);
     })
   })
@@ -72,7 +72,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"sQqNsWTgdUEFt6mb5y4/5Q=="')
+      .expect('ETag', '"b-sQqNsWTgdUEFt6mb5y4/5Q"')
       .end(done);
     })
   })
@@ -90,7 +90,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', '"m7WPJhkuS6APAeLnsTa72A=="')
+      .expect('ETag', '"d-m7WPJhkuS6APAeLnsTa72A"')
       .end(done);
     })
   })
@@ -108,11 +108,27 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .end(function(err, res){
-        if (err) return done(err);
-        res.should.have.header('ETag');
-        done();
+      .expect('ETag', 'W/"39b-150886b2270"')
+      .end(done);
+    })
+  })
+
+  describe('when with options', function(){
+    it('should add weak ETag', function(done){
+      var app = koa();
+      var options = {weak: true};
+
+      app.use(etag(options));
+
+      app.use(function *(next){
+        yield next;
+        this.body = 'Hello World';
       });
+
+      request(app.listen())
+      .get('/')
+      .expect('ETag', 'W/"b-sQqNsWTgdUEFt6mb5y4/5Q"')
+      .end(done);
     })
   })
 })
