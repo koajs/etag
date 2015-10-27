@@ -15,12 +15,13 @@ module.exports = etag;
 
 /**
  * Add ETag header field.
- *
+ * @param {object} [options] see https://github.com/jshttp/etag#options
+ * @param {boolean} [options.weak]
  * @return {Function}
  * @api public
  */
 
-function etag() {
+function etag(options) {
   return function *etag(next){
     yield* next;
 
@@ -40,11 +41,11 @@ function etag() {
       if (!body.path) return;
       var s = yield fs.stat(body.path).catch(noop);
       if (!s) return;
-      etag = calculate(s);
+      etag = calculate(s, options);
     } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
-      etag = calculate(body);
+      etag = calculate(body, options);
     } else {
-      etag = calculate(JSON.stringify(body));
+      etag = calculate(JSON.stringify(body), options);
     }
 
     // add etag
