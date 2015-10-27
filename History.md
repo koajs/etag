@@ -1,4 +1,10 @@
 
+2.1.0 / 2015-10-27
+==================
+
+ * test: add more node versions on travis ci
+ * feat: support etag options
+
 2.0.0 / 2014-08-30
 ==================
 
