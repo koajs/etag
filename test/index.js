@@ -1,18 +1,18 @@
 
 var request = require('supertest');
-var koa = require('koa');
+var Koa = require('koa');
 var etag = require('..');
 var fs = require('fs');
 
 describe('etag()', function(){
   describe('when body is missing', function(){
     it('should not add ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        yield next;
+      app.use(function (ctx, next){
+        return next();
       });
 
       request(app.listen())
@@ -23,14 +23,14 @@ describe('etag()', function(){
 
   describe('when ETag is exists', function(){
     it('should not add ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        this.body = {hi: 'etag'};
-        this.etag = 'etaghaha';
-        yield next;
+      app.use(function (ctx, next){
+        ctx.body = {hi: 'etag'};
+        ctx.etag = 'etaghaha';
+        return next();
       });
 
       request(app.listen())
@@ -43,13 +43,14 @@ describe('etag()', function(){
 
   describe('when body is a string', function(){
     it('should add ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        yield next;
-        this.body = 'Hello World';
+      app.use(function (ctx, next){
+        return next().then(function() {
+          ctx.body = 'Hello World';
+        });
       });
 
       request(app.listen())
@@ -61,13 +62,14 @@ describe('etag()', function(){
 
   describe('when body is a Buffer', function(){
     it('should add ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        yield next;
-        this.body = new Buffer('Hello World');
+      app.use(function (ctx, next){
+        return next().then(function() {
+          ctx.body = new Buffer('Hello World');
+        });
       });
 
       request(app.listen())
@@ -79,13 +81,14 @@ describe('etag()', function(){
 
   describe('when body is JSON', function(){
     it('should add ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        yield next;
-        this.body = { foo: 'bar' };
+      app.use(function (ctx, next){
+        return next().then(function() {
+          ctx.body = { foo: 'bar' };
+        });
       });
 
       request(app.listen())
@@ -97,13 +100,14 @@ describe('etag()', function(){
 
   describe('when body is a stream with a .path', function(){
     it('should add an ETag', function(done){
-      var app = koa();
+      var app = new Koa();
 
       app.use(etag());
 
-      app.use(function *(next){
-        yield next;
-        this.body = fs.createReadStream('package.json');
+      app.use(function (ctx, next){
+        return next().then(function() {
+          ctx.body = fs.createReadStream('package.json');
+        });
       });
 
       request(app.listen())
@@ -115,14 +119,15 @@ describe('etag()', function(){
 
   describe('when with options', function(){
     it('should add weak ETag', function(done){
-      var app = koa();
+      var app = new Koa();
       var options = {weak: true};
 
       app.use(etag(options));
 
-      app.use(function *(next){
-        yield next;
-        this.body = 'Hello World';
+      app.use(function (ctx, next){
+        return next().then(function() {
+          ctx.body = 'Hello World';
+        });
       });
 
       request(app.listen())
