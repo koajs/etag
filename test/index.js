@@ -54,7 +54,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', /.+/)
+      .expect('ETag', '"b-sQqNsWTgdUEFt6mb5y4/5Q"')
       .end(done);
     })
   })
@@ -72,7 +72,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', /.+/)
+      .expect('ETag', '"b-sQqNsWTgdUEFt6mb5y4/5Q"')
       .end(done);
     })
   })
@@ -90,7 +90,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', /.+/)
+      .expect('ETag', '"d-m7WPJhkuS6APAeLnsTa72A"')
       .end(done);
     })
   })
@@ -108,7 +108,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', /.+/)
+      .expect('ETag', /^W\/.+/)
       .end(done);
     })
   })
@@ -127,7 +127,7 @@ describe('etag()', function(){
 
       request(app.listen())
       .get('/')
-      .expect('ETag', /^W\/.+/)
+      .expect('ETag', 'W/"b-sQqNsWTgdUEFt6mb5y4/5Q"')
       .end(done);
     })
   })
