@@ -28,12 +28,9 @@ var app = koa();
 app.use(conditional());
 app.use(etag());
 
-app.use(function(next){
-  return function *(){
-    yield next;
-    this.body = 'Hello World';
-  }
-})
+app.use(function(ctx) {
+  ctx.body = 'Hello World';
+});
 
 app.listen(3000);
 
