@@ -22,35 +22,38 @@ module.exports = etag;
  */
 
 function etag(options) {
-  return function *etag(next){
-    yield* next;
+  return function etag(ctx, next) {
+	  return next()
+		  .then(() => etagUp(ctx))
+		  .then(entity => etagCalculate(ctx, entity, options));
+  };
+}
 
-    // no body
-    var body = this.body;
-    if (!body || this.response.get('ETag')) return;
+function etagUp(ctx, options) {
+  // no body
+  var body = ctx.body;
+  if (!body || ctx.response.get('ETag')) return;
 
-    // type
-    var status = this.status / 100 | 0;
+  // type
+  var status = ctx.status / 100 | 0;
 
-    // 2xx
-    if (2 != status) return;
+  // 2xx
+  if (2 != status) return;
 
-    // hash
-    var etag;
-    if (body instanceof Stream) {
-      if (!body.path) return;
-      var s = yield fs.stat(body.path).catch(noop);
-      if (!s) return;
-      etag = calculate(s, options);
-    } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
-      etag = calculate(body, options);
-    } else {
-      etag = calculate(JSON.stringify(body), options);
-    }
-
-    // add etag
-    if (etag) this.response.etag = etag;
+  if (body instanceof Stream) {
+	if (!body.path) return;
+	return fs.stat(body.path).catch(noop);
+  } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
+	return body;
+  } else {
+	return JSON.stringify(body);
   }
+}
+
+function etagCalculate(ctx, entity, options) {
+	if (!entity) return;
+
+	ctx.response.etag = calculate(entity, options);
 }
 
 function noop() {}

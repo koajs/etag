@@ -18,7 +18,7 @@
   ],
   "devDependencies": {
     "istanbul": "^0.4.0",
-    "koa": "*",
+    "koa": "^2.0.0-alpha.3",
     "should": "3",
     "mocha": "2",
     "supertest": "0",
@@ -30,8 +30,8 @@
     "mz": "^1.0.0"
   },
   "scripts": {
-    "test": "mocha --harmony --reporter spec --require should",
-    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --require should",
-    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot --require should"
+    "test": "mocha --reporter spec --require should",
+    "test-cov": "node node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --require should",
+    "test-travis": "node node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot --require should"
   }
 }
