@@ -19,7 +19,7 @@
   "devDependencies": {
     "istanbul": "^0.4.0",
     "koa": "*",
-    "should": "8.0.2",
+    "should": "8.1.1",
     "mocha": "2",
     "supertest": "1.1.0",
     "koa-static": "1"
