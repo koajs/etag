@@ -1,0 +1,12 @@
+{
+  "extends": ["standard"],
+  "rules": {
+    "eqeqeq": 0,
+    "generator-star-spacing": 0,
+    "semi": 0,
+    "space-before-blocks": 0,
+    "space-before-function-paren": 0,
+    "yield-star-spacing": 0,
+    "yoda": 0,
+  }
+}
