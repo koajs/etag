@@ -2,7 +2,7 @@
   "name": "koa-etag",
   "description": "ETag support for koa",
   "repository": "koajs/etag",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "keywords": [
     "koa",
     "middleware",
