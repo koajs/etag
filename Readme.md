@@ -10,6 +10,8 @@
 
  ETag support for Koa responses using [etag](https://github.com/jshttp/etag).
 
+ For Koa v1, use `koa-etag@2`. For Koa v2, use `koa-etag@3` or `koa-etag@next`.
+
 ## Installation
 
 ```js
