@@ -19,10 +19,10 @@
   "devDependencies": {
     "istanbul": "^0.4.0",
     "koa": "^1.0.0",
-    "should": "^8.0.2",
+    "should": "8.2.2",
     "mocha": "^2.0.0",
-    "supertest": "^1.1.0",
-    "koa-static": "^2.0.0"
+    "supertest": "1.2.0",
+    "koa-static": "2.0.0"
   },
   "license": "MIT",
   "dependencies": {
