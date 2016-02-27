@@ -24,12 +24,12 @@ module.exports = etag;
 function etag(options) {
   return function etag(ctx, next) {
     return next()
-      .then(() => etagUp(ctx))
-      .then(entity => etagCalculate(ctx, entity, options));
+      .then(() => getResponseEntity(ctx))
+      .then(entity => setEtag(ctx, entity, options));
   };
 }
 
-function etagUp(ctx, options) {
+function getResponseEntity(ctx, options) {
   // no body
   var body = ctx.body;
   if (!body || ctx.response.get('ETag')) return;
@@ -50,7 +50,7 @@ function etagUp(ctx, options) {
   }
 }
 
-function etagCalculate(ctx, entity, options) {
+function setEtag(ctx, entity, options) {
   if (!entity) return;
 
   ctx.response.etag = calculate(entity, options);
