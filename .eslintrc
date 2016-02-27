@@ -1,6 +1,7 @@
 {
   "extends": ["standard"],
   "rules": {
+    "arrow-parens": 0,
     "eqeqeq": 0,
     "generator-star-spacing": 0,
     "semi": 0,

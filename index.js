@@ -23,9 +23,9 @@ module.exports = etag;
 
 function etag(options) {
   return function etag(ctx, next) {
-	  return next()
-		  .then(() => etagUp(ctx))
-		  .then(entity => etagCalculate(ctx, entity, options));
+    return next()
+      .then(() => etagUp(ctx))
+      .then(entity => etagCalculate(ctx, entity, options));
   };
 }
 
@@ -41,19 +41,19 @@ function etagUp(ctx, options) {
   if (2 != status) return;
 
   if (body instanceof Stream) {
-	if (!body.path) return;
-	return fs.stat(body.path).catch(noop);
+    if (!body.path) return;
+    return fs.stat(body.path).catch(noop);
   } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
-	return body;
+    return body;
   } else {
-	return JSON.stringify(body);
+    return JSON.stringify(body);
   }
 }
 
 function etagCalculate(ctx, entity, options) {
-	if (!entity) return;
+  if (!entity) return;
 
-	ctx.response.etag = calculate(entity, options);
+  ctx.response.etag = calculate(entity, options);
 }
 
 function noop() {}
