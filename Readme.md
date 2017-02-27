@@ -19,10 +19,10 @@ $ npm install koa-etag
 ## Example
 
 ```js
-var conditional = require('koa-conditional-get');
-var etag = require('koa-etag');
-var koa = require('koa');
-var app = koa();
+const conditional = require('koa-conditional-get');
+const etag = require('koa-etag');
+const Koa = require('koa');
+const app = new Koa();
 
 // etag works together with conditional-get
 app.use(conditional());
