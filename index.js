@@ -42,7 +42,8 @@ function getResponseEntity(ctx, options) {
 
   if (body instanceof Stream) {
     if (!body.path) return;
-    return fs.stat(body.path).catch(noop);
+    //return fs.stat(body.path).catch(noop);
+    try { return fs.statSync(body.path) } catch (e) { noop };
   } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
     return body;
   } else {
