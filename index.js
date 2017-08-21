@@ -23,11 +23,11 @@ module.exports = etag;
 
 function etag(options) {
   return function *etag(next){
-    yield* next;
+    yield next;
 
     // no body
     var body = this.body;
-    if (!body || this.response.get('ETag')) return;
+    if (!body || this.response.get('etag')) return;
 
     // type
     var status = this.status / 100 | 0;
