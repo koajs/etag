@@ -32,7 +32,7 @@ function etag(options) {
 function getResponseEntity(ctx, options) {
   // no body
   var body = ctx.body;
-  if (!body || ctx.response.get('ETag')) return;
+  if (!body || ctx.response.get('etag')) return;
 
   // type
   var status = ctx.status / 100 | 0;
