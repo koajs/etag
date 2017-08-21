@@ -1,4 +1,15 @@
 
+2.1.2 / 2017-08-21
+==================
+
+  * chore: set publish tag to v2
+  * fix: use yield instead of yield* (#48)
+  * chore(package): update eslint-plugin-standard to version 2.0.0 (#29)
+  * chore(package): update eslint-plugin-promise to version 2.0.0 (#30)
+  * chore(package): update supertest to version 2.0.0 (#34)
+  * chore(package): update mocha to version 3.0.2 (#41)
+  * chore(package): update eslint to version 3.3.0
+
 2.1.0 / 2015-10-27
 ==================
 
