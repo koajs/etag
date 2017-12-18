@@ -1,13 +1,10 @@
 {
-  "extends": ["standard"],
+  "extends": "koa",
   "rules": {
-    "arrow-parens": 0,
-    "eqeqeq": 0,
-    "generator-star-spacing": 0,
+    "no-var": 0,
+    "prefer-arrow-callback": 0,
     "semi": 0,
     "space-before-blocks": 0,
-    "space-before-function-paren": 0,
-    "yield-star-spacing": 0,
-    "yoda": 0,
+    "space-before-function-paren": 0
   }
 }
