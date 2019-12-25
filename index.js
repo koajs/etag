@@ -29,7 +29,7 @@ function etag(options) {
   };
 }
 
-function getResponseEntity(ctx, options) {
+function getResponseEntity(ctx) {
   // no body
   var body = ctx.body;
   if (!body || ctx.response.get('ETag')) return;
