@@ -34,7 +34,7 @@ module.exports = function etag (options) {
 async function getResponseEntity (ctx) {
   // no body
   const body = ctx.body
-  if (!body || ctx.response.get('ETag')) return
+  if (!body || ctx.response.get('etag')) return
 
   // type
   const status = ctx.status / 100 | 0
