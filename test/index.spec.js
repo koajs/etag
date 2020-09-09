@@ -16,8 +16,8 @@ describe('etag()', function () {
       })
 
       request(app.listen())
-      .get('/')
-      .end(done)
+        .get('/')
+        .end(done)
     })
   })
 
@@ -28,16 +28,16 @@ describe('etag()', function () {
       app.use(etag())
 
       app.use(function (ctx, next) {
-        ctx.body = {hi: 'etag'}
+        ctx.body = { hi: 'etag' }
         ctx.etag = 'etaghaha'
         return next()
       })
 
       request(app.listen())
-      .get('/')
-      .expect('etag', '"etaghaha"')
-      .expect({hi: 'etag'})
-      .expect(200, done)
+        .get('/')
+        .expect('etag', '"etaghaha"')
+        .expect({ hi: 'etag' })
+        .expect(200, done)
     })
   })
 
@@ -54,9 +54,9 @@ describe('etag()', function () {
       })
 
       request(app.listen())
-      .get('/')
-      .expect('ETag', '"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
-      .end(done)
+        .get('/')
+        .expect('ETag', '"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
+        .end(done)
     })
   })
 
@@ -68,14 +68,14 @@ describe('etag()', function () {
 
       app.use(function (ctx, next) {
         return next().then(function () {
-          ctx.body = new Buffer('Hello World')
+          ctx.body = Buffer.from('Hello World')
         })
       })
 
       request(app.listen())
-      .get('/')
-      .expect('ETag', '"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
-      .end(done)
+        .get('/')
+        .expect('ETag', '"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
+        .end(done)
     })
   })
 
@@ -92,9 +92,9 @@ describe('etag()', function () {
       })
 
       request(app.listen())
-      .get('/')
-      .expect('ETag', '"d-pedE0BZFQNM7HX6mFsKPL6l+dUo"')
-      .end(done)
+        .get('/')
+        .expect('ETag', '"d-pedE0BZFQNM7HX6mFsKPL6l+dUo"')
+        .end(done)
     })
   })
 
@@ -111,16 +111,16 @@ describe('etag()', function () {
       })
 
       request(app.listen())
-      .get('/')
-      .expect('ETag', /^W\/.+/)
-      .end(done)
+        .get('/')
+        .expect('ETag', /^W\/.+/)
+        .end(done)
     })
   })
 
   describe('when with options', function () {
     it('should add weak ETag', function (done) {
       const app = new Koa()
-      const options = {weak: true}
+      const options = { weak: true }
 
       app.use(etag(options))
 
@@ -131,9 +131,9 @@ describe('etag()', function () {
       })
 
       request(app.listen())
-      .get('/')
-      .expect('ETag', 'W/"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
-      .end(done)
+        .get('/')
+        .expect('ETag', 'W/"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
+        .end(done)
     })
   })
 })
