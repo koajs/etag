@@ -7,7 +7,7 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
-ETag support for Koa responses using [etag](https://github.com/jshttp/etag).
+Etag support for Koa responses using [etag](https://github.com/jshttp/etag).
 
 ## Installation
 
