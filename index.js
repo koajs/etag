@@ -27,7 +27,6 @@ module.exports = function etag (options) {
     await next()
     const entity = await getResponseEntity(ctx)
     setEtag(ctx, entity, options)
-    return
   }
 }
 
