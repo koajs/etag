@@ -1,19 +1,20 @@
 
+'use strict'
+
 /**
  * Module dependencies.
  */
 
-var calculate = require('etag');
-var Stream = require('stream');
-var fs = require('mz/fs');
+const calculate = require('etag')
+const Stream = require('stream')
+const promisify = require('util').promisify
+const fs = require('fs')
+
+const stat = promisify(fs.stat)
 
 /**
  * Expose `etag`.
- */
-
-module.exports = etag;
-
-/**
+ *
  * Add ETag header field.
  * @param {object} [options] see https://github.com/jshttp/etag#options
  * @param {boolean} [options.weak]
@@ -21,39 +22,37 @@ module.exports = etag;
  * @api public
  */
 
-function etag(options) {
-  return function etag(ctx, next) {
-    return next()
-      .then(() => getResponseEntity(ctx))
-      .then(entity => setEtag(ctx, entity, options));
-  };
-}
-
-function getResponseEntity(ctx, options) {
-  // no body
-  var body = ctx.body;
-  if (!body || ctx.response.get('ETag')) return;
-
-  // type
-  var status = ctx.status / 100 | 0;
-
-  // 2xx
-  if (2 != status) return;
-
-  if (body instanceof Stream) {
-    if (!body.path) return;
-    return fs.stat(body.path).catch(noop);
-  } else if (('string' == typeof body) || Buffer.isBuffer(body)) {
-    return body;
-  } else {
-    return JSON.stringify(body);
+module.exports = function etag (options) {
+  return async function etag (ctx, next) {
+    await next()
+    const entity = await getResponseEntity(ctx)
+    setEtag(ctx, entity, options)
   }
 }
 
-function setEtag(ctx, entity, options) {
-  if (!entity) return;
+async function getResponseEntity (ctx) {
+  // no body
+  const body = ctx.body
+  if (!body || ctx.response.get('etag')) return
 
-  ctx.response.etag = calculate(entity, options);
+  // type
+  const status = ctx.status / 100 | 0
+
+  // 2xx
+  if (status !== 2) return
+
+  if (body instanceof Stream) {
+    if (!body.path) return
+    return await stat(body.path)
+  } else if ((typeof body === 'string') || Buffer.isBuffer(body)) {
+    return body
+  } else {
+    return JSON.stringify(body)
+  }
 }
 
-function noop() {}
+function setEtag (ctx, entity, options) {
+  if (!entity) return
+
+  ctx.response.etag = calculate(entity, options)
+}

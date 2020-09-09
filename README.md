@@ -1,4 +1,3 @@
-
 # koa-etag
 
 [![NPM version][npm-image]][npm-url]
@@ -8,12 +7,15 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
- ETag support for Koa responses using [etag](https://github.com/jshttp/etag).
+Etag support for Koa responses using [etag](https://github.com/jshttp/etag).
 
 ## Installation
 
-```js
+```bash
+# npm
 $ npm install koa-etag
+# yarn
+$ yarn add koa-etag
 ```
 
 ## Example
@@ -28,7 +30,7 @@ const app = new Koa();
 app.use(conditional());
 app.use(etag());
 
-app.use(function(ctx) {
+app.use(function (ctx) {
   ctx.body = 'Hello World';
 });
 
@@ -39,7 +41,7 @@ console.log('listening on port 3000');
 
 ## License
 
-  MIT
+[MIT](LICENSE)
 
 [npm-image]: https://img.shields.io/npm/v/koa-etag.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/koa-etag

@@ -1,6 +1,10 @@
-sudo: false
-node_js:
-- "7"
 language: node_js
-script: "npm run test-travis"
-after_script: "npm run lint && npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
+node_js:
+  - 10
+  - 12
+  - 14
+script: 
+  - npm run ci
+after_script: 
+  - npm install coveralls@2.10.0
+  - cat ./coverage/lcov.info | coveralls
