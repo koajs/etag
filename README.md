@@ -22,9 +22,13 @@ $ yarn add koa-etag
 
 ```js
 const conditional = require('koa-conditional-get');
+const compress = require('koa-compress');
 const etag = require('koa-etag');
 const Koa = require('koa');
 const app = new Koa();
+
+// must be used before `conditional` and `etag`
+app.use(compress());
 
 // etag works together with conditional-get
 app.use(conditional());
