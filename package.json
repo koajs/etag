@@ -39,7 +39,7 @@
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "should": "^13.2.3",
-    "supertest": "^6.3.3"
+    "supertest": "^7.1.1"
   },
   "enignes": {
     "node": ">= 10"
