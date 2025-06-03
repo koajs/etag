@@ -36,7 +36,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "koa": "^2.13.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.1.0",
     "rimraf": "^3.0.2",
     "should": "^13.2.3",
     "supertest": "^6.3.3"
