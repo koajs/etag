@@ -3,8 +3,8 @@
 .DS_Store
 .idea
 Thumbs.db
-tmp
-temp
+tmp/
+temp/
 
 
 #     Node.js     #
@@ -12,8 +12,17 @@ temp
 node_modules
 package-lock.json
 yarn.lock
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+#      Build      #
+###################
+dist
+build
 
 #       NYC       #
 ###################
 coverage
+*.lcov
 .nyc_output
