@@ -1,6 +1,6 @@
 {
   "name": "@koa/etag",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Koa ETag support middleware",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
