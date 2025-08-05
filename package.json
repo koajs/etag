@@ -47,7 +47,7 @@
     "@types/jest": "^29.5.0",
     "@types/koa": "^2.13.6",
     "@types/lodash.merge": "^4.6.7",
-    "@types/node": "^18.15.11",
+    "@types/node": "^24.2.0",
     "@types/supertest": "^6.0.3",
     "@types/type-is": "^1.6.3",
     "eslint-config-xo-lass": "^2.0.1",
