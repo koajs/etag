@@ -1,15 +1,16 @@
 import {defineConfig} from 'tsup';
 
 const tsupConfig = defineConfig({
-  name: '@koa/body-parser',
+  name: '@koa/etag',
   entry: ['src/*.ts'],
   target: 'esnext',
   format: ['cjs', 'esm'],
   dts: true,
-  splitting: false,
+  splitting: true,
   sourcemap: false,
   clean: true,
   platform: 'node',
+  cjsInterop: true,
 });
 
 export default tsupConfig;
