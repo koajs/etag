@@ -20,7 +20,7 @@
     "build": "tsup",
     "lint": "xo",
     "lint:fix": "xo --fix",
-    "pretest": "yarn run lint",
+    "pretest": "npm run lint",
     "test": "jest --detectOpenHandles",
     "test-ci": "npm run test -- --coverage",
     "prepublishOnly": "npm run build"
