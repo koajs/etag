@@ -48,7 +48,7 @@
     "@types/koa": "^2.13.6",
     "@types/lodash.merge": "^4.6.7",
     "@types/node": "^25.0.10",
-    "@types/supertest": "^6.0.3",
+    "@types/supertest": "^7.2.0",
     "@types/type-is": "^1.6.3",
     "eslint-config-xo-lass": "^2.0.1",
     "husky": "^9.1.7",
