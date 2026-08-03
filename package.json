@@ -58,7 +58,7 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.0.3",
+    "typescript": "^7.0.2",
     "xo": "^0.60.0"
   },
   "enignes": {
