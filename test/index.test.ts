@@ -104,6 +104,54 @@ describe('etag()', () => {
     });
   });
 
+  describe('when body is a Blob', () => {
+    it('should add an ETag from its contents', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Blob(['Hello World']);
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBe('"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"');
+    });
+  });
+
+  describe('when body is a ReadableStream', () => {
+    it('should not add ETag', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Blob(['Hello World']).stream();
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBeUndefined();
+    });
+  });
+
+  describe('when body is a Response', () => {
+    it('should not add ETag', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Response('Hello World');
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBeUndefined();
+    });
+  });
+
   describe('when with options', () => {
     it('should add weak ETag', async () => {
       const app = new Koa();

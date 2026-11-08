@@ -28,6 +28,11 @@ async function getResponseEntity(ctx: Koa.Context) {
 
   if (typeof body === 'string' || Buffer.isBuffer(body)) return body;
 
+  if (body instanceof Blob) return Buffer.from(await body.arrayBuffer());
+
+  // web streams cannot be hashed without consuming them
+  if (body instanceof ReadableStream || body instanceof Response) return;
+
   return JSON.stringify(body);
 }
 
