@@ -152,6 +152,39 @@ describe('etag()', () => {
     });
   });
 
+  describe('when the web body globals are missing', () => {
+    it('should still add an ETag to JSON bodies', async () => {
+      const {Blob, ReadableStream, Response} = globalThis;
+      const app = new Koa();
+
+      // Koa 2 on Node versions without these globals
+      app.use(async (_, next) => {
+        try {
+          await next();
+        } finally {
+          Object.assign(globalThis, {Blob, ReadableStream, Response});
+        }
+      });
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = {hi: 'etag'};
+        // @ts-expect-error simulate missing globals
+        delete globalThis.Blob;
+        // @ts-expect-error simulate missing globals
+        delete globalThis.ReadableStream;
+        // @ts-expect-error simulate missing globals
+        delete globalThis.Response;
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.status).toBe(200);
+      expect(response.headers.etag).toBe('"d-7khfMzXSVEAs7+UdfeUM4r8bO0Q"');
+    });
+  });
+
   describe('when with options', () => {
     it('should add weak ETag', async () => {
       const app = new Koa();
