@@ -104,6 +104,87 @@ describe('etag()', () => {
     });
   });
 
+  describe('when body is a Blob', () => {
+    it('should add an ETag from its contents', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Blob(['Hello World']);
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBe('"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"');
+    });
+  });
+
+  describe('when body is a ReadableStream', () => {
+    it('should not add ETag', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Blob(['Hello World']).stream();
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBeUndefined();
+    });
+  });
+
+  describe('when body is a Response', () => {
+    it('should not add ETag', async () => {
+      const app = new Koa();
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = new Response('Hello World');
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.headers.etag).toBeUndefined();
+    });
+  });
+
+  describe('when the web body globals are missing', () => {
+    it('should still add an ETag to JSON bodies', async () => {
+      const {Blob, ReadableStream, Response} = globalThis;
+      const app = new Koa();
+
+      // Koa 2 on Node versions without these globals
+      app.use(async (_, next) => {
+        try {
+          await next();
+        } finally {
+          Object.assign(globalThis, {Blob, ReadableStream, Response});
+        }
+      });
+
+      app.use(etag());
+
+      app.use(async (ctx, next) => {
+        await next();
+        ctx.body = {hi: 'etag'};
+        // @ts-expect-error simulate missing globals
+        delete globalThis.Blob;
+        // @ts-expect-error simulate missing globals
+        delete globalThis.ReadableStream;
+        // @ts-expect-error simulate missing globals
+        delete globalThis.Response;
+      });
+
+      const response = await request(app.callback()).get('/');
+      expect(response.status).toBe(200);
+      expect(response.headers.etag).toBe('"d-7khfMzXSVEAs7+UdfeUM4r8bO0Q"');
+    });
+  });
+
   describe('when with options', () => {
     it('should add weak ETag', async () => {
       const app = new Koa();
